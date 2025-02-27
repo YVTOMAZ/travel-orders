@@ -13,6 +13,18 @@ Este é um projeto de API para gerenciar ordens de viagem, com autenticação JW
 - **JWT** para autenticação de usuários
 - **APIDOG** Rotas prontas para facilitar os testes (Travel.apidog.json)
 
+## 🎥 Vídeo Explicativo
+Assista ao vídeo explicativo do funcionamento da API:
+
+<div>
+    <a href="https://www.loom.com/share/8c44c773d45844ec843df26d5b656b3d">
+      <p></p>
+    </a>
+    <a href="https://www.loom.com/share/8c44c773d45844ec843df26d5b656b3d">
+      <img style="max-width:300px;" src="https://cdn.loom.com/sessions/thumbnails/8c44c773d45844ec843df26d5b656b3d-d5a1dd9ef00f001a-full-play.gif">
+    </a>
+<div>
+
 ## 🚀 Como Rodar o Projeto
 
 ### 1. Clone o Repositório
@@ -125,9 +137,3 @@ docker compose exec app php artisan test --filter test_user_cannot_update_own_or
 
 ### Importante: 
 Para rodar todos os comandos, incluindo as migrations e os testes, sempre execute-os dentro do Docker, usando os comandos mencionados acima, para garantir que as configurações do ambiente sejam carregadas corretamente.
-
-
-## 🎥 Vídeo Explicativo
-Assista ao vídeo explicativo do funcionamento da API:
-
-[Inserir Link do Vídeo Loom Aqui]
