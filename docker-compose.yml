@@ -9,6 +9,7 @@ services:
       - ./:/var/www
     depends_on:
       - mysql
+    command: php artisan serve --host=0.0.0.0 --port=80
 
   mysql:
     image: mysql:8
@@ -19,6 +20,11 @@ services:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - "8025:8025"
 
 volumes:
   mysql_data:
