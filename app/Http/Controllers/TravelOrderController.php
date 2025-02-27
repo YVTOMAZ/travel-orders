@@ -42,14 +42,22 @@ class TravelOrderController extends Controller
     {
         $travelOrder = TravelOrder::where('id', $id)
             ->where('user_id', auth()->id())
-            ->firstOrFail();
+            ->first();
+
+        if (!$travelOrder) {
+            return response()->json(['error' => 'Travel order not found'], 404);
+        }
 
         return response()->json($travelOrder);
     }
 
     public function updateStatus(UpdateTravelOrderStatusRequest $request, $id)
     {
-        $travelOrder = TravelOrder::findOrFail($id);
+        $travelOrder = TravelOrder::find($id);
+
+        if (!$travelOrder) {
+            return response()->json(['error' => 'Travel order not found'], 404);
+        }
 
         if ($travelOrder->user_id === auth()->id()) {
             return response()->json(['error' => 'User not authorized to update their own order status'], 403);
