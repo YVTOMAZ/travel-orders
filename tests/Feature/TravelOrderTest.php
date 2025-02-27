@@ -6,6 +6,7 @@ use App\Models\TravelOrder;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class TravelOrderTest extends TestCase
 {
@@ -14,7 +15,7 @@ class TravelOrderTest extends TestCase
     public function test_create_travel_order()
     {
         $user = User::factory()->create();
-        $token = auth()->login($user);
+        $token = JWTAuth::fromUser($user);
 
         $payload = [
             'requester'      => 'Tomaz',
@@ -27,13 +28,13 @@ class TravelOrderTest extends TestCase
                          ->postJson('/api/travel-orders', $payload);
 
         $response->assertStatus(201)
-                 ->assertJsonFragment(['destination' => 'New York']);
+                 ->assertJsonFragment(['destination' => 'Minas Gerais']);
     }
 
     public function test_user_cannot_update_own_order_status()
     {
         $user = User::factory()->create();
-        $token = auth()->login($user);
+        $token = JWTAuth::fromUser($user);
 
         $order = TravelOrder::create([
             'user_id'       => $user->id,
