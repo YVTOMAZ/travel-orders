@@ -1,66 +1,133 @@
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# Projeto de Ordem de Viagem - API
 
-## About Laravel
+Este é um projeto de API para gerenciar ordens de viagem, com autenticação JWT e comunicação por email. A aplicação é baseada em **PHP (Laravel)** e utiliza **Docker** para configuração do ambiente.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🛠 Tecnologias Utilizadas
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- **PHP** (Laravel)
+- **MySQL** 8
+- **Mailhog** para teste de emails
+- **Docker** para containerização
+- **JWT** para autenticação de usuários
+- **APIDOG** Rotas prontas para facilitar os testes (Travel.apidog.json)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 🚀 Como Rodar o Projeto
 
-## Learning Laravel
+### 1. Clone o Repositório
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Primeiro, faça o clone do repositório:
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+```bash
+git clone https://github.com/seu-usuario/repositorio.git
+cd repositorio
+```
+2. Instalar o Docker e Docker Compose
+- Certifique-se de ter o Docker e o Docker Compose instalados na sua máquina.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+3. Instalar Dependências
+- Agora, instale as dependências do projeto. Este comando pode ser executado fora do Docker, diretamente na sua máquina:
 
-## Laravel Sponsors
+```bash
+composer install
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+4. Rodar o Docker Compose e levantar todos os serviços:
 
-### Premium Partners
+```bash
+docker compose up -d
+```
+##### Esse comando vai:
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+- Criar e iniciar os containers para o PHP, MySQL e Mailhog.
+A aplicação estará disponível em http://localhost:8000.
 
-## Contributing
+5. Rodar as Migrations
+Para rodar as migrations do banco de dados, dentro do container PHP execute:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+docker compose exec app php artisan migrate
+```
+6. Rodar os Testes
+Para rodar os testes automatizados, use o comando abaixo dentro do container PHP:
 
-## Code of Conduct
+```bash
+docker compose exec app php artisan test
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+7. Acessar o Mailhog
+Para verificar os emails enviados pela aplicação, acesse o Mailhog no navegador:
+```
+URL: http://localhost:8025
+```
+# 📡 Rotas da API
+### Aqui estão as principais rotas da API e suas funcionalidades:
 
-## Security Vulnerabilities
+```
+POST /api/login : 
+Autentica o usuário e retorna um token JWT.
+```
+```
+POST /api/register : 
+Registra um novo usuário e retorna um token JWT.
+```
+```
+POST /api/travel-orders : 
+Cria uma nova ordem de viagem (requere autenticação).
+```
+```
+GET /api/travel-orders : 
+Lista as ordens de viagem do usuário autenticado.
+```
+```
+GET /api/travel-orders/{id} : 
+Exibe os detalhes de uma ordem de viagem.
+```
+```
+PATCH /api/travel-orders/{id}/status : 
+Atualiza o status de uma ordem de viagem (requere permissões adequadas).
+```
+### Exemplos de Requisições
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+#### Login
+```
+curl -X POST http://localhost:8000/api/login -d "email=user@exemplo.com&password=sua-senha"
+```
+#### Criar Ordem de Viagem
+``` 
+curl -X POST http://localhost:8000/api/travel-orders -H "Authorization: Bearer SEU_TOKEN" -d "requester=Tomaz&destination=Minas Gerais&departure_date=2025-06-01&return_date=2025-06-05"
+```
 
-## License
+⚙️ Configuração de Ambiente
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+As variáveis de ambiente para o MySQL são configuradas no arquivo .env.example já preenchido para facilitar a configuração, só renomear .env.example para .env:
+
+```
+MYSQL_DATABASE=corporate_travel
+MYSQL_ROOT_PASSWORD=secret
+```
+
+## ✅ Testes
+Os testes do projeto estão na pasta tests/Feature/. 
+Eles cobrem os principais fluxos da API, como criação de ordens de viagem, atualizações de status e validação de permissões.
+
+### Exemplos de Testes
+
+#### Testar criação de ordem de viagem
+```
+docker compose exec app php artisan test --filter test_create_travel_order
+```
+#### Testar falha na atualização de status
+```
+docker compose exec app php artisan test --filter test_user_cannot_update_own_order_status
+```
+
+### Importante: 
+Para rodar todos os comandos, incluindo as migrations e os testes, sempre execute-os dentro do Docker, usando os comandos mencionados acima, para garantir que as configurações do ambiente sejam carregadas corretamente.
+
+
+## 🎥 Vídeo Explicativo
+Assista ao vídeo explicativo do funcionamento da API:
+
+[Inserir Link do Vídeo Loom Aqui]
